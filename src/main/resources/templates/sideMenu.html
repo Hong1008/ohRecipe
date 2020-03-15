@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/sideMenu.css">
+<script type="text/javascript" src="/js/sideMenu.js"></script>
+<script src="/js/plugin/jquery-ui.min.js"></script>
+<script src="/js/plugin/hangul.js"></script>
+
+<div id='side_menu' th:fragment="side_menu">
+	<div id='side_btn'>
+		<img src="/img/home_open_btn.png">
+	</div>
+	<div id='search_div'><input type="text"
+			name="search" autocomplete="off" placeholder="재료를 검색하세요">
+	</div>
+	<div id='ingredients_div'>
+		<div id='ingredients_menu_div'>
+			<img src="/img/home_arrow.png" id='ing_m_left'> <img
+				src="/img/home_arrow.png" id='ing_m_right'>
+			<ul id='ing_menu' th:each="ty : ${tList}">
+					<li class='ing_menu_li' id="${ty }" th:text="${ty}"></li>
+			</ul>
+		</div>
+		<div id='ing_maker' th:each="dto : ${aList }">
+				<div class='ingredients' id='${dto.irdnt_nm}'>
+					${dto.irdnt_nm}
+					<input type="hidden" id='${dto.ty_nm }' />
+				</div>
+		</div>
+	</div>
+</div>
