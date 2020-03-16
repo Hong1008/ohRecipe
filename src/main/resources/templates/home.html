@@ -42,7 +42,7 @@
 </style>
 </head>
 <body>
-	<header th:replace="menu :: menu"></header>
+	<header th:insert="menu :: menu"></header>
 	<div id='wrap' class='test'>
 		<div id='container' class='test'>
 			<div id='main_contents'>
@@ -53,7 +53,7 @@
 				<div id='selected_recipe_view'></div>
 				<div id='selected_recipe'></div>
 			</div>
-			<div th:replace="sideMenu :: side_menu"></div>
+			<div th:insert="sideMenu :: side_menu"></div>
 		</div>
 		<footer></footer>
 	</div>

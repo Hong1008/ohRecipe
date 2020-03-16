@@ -35,7 +35,7 @@ public class RecipeComment {
 
     private LocalDateTime comTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "com_board")
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
 

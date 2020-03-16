@@ -16,7 +16,7 @@ public class RecipeController {
 
     @GetMapping("home")
     public String home(Model model){
-        model.addAttribute("aList",irdntTypeRepository.findIrdntNmList());
+        model.addAttribute("aList",irdntTypeRepository.findAll());
         model.addAttribute("tList",irdntTypeRepository.findDistinctTypeNmList());
 
         return "home";

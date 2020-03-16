@@ -16,14 +16,13 @@
 		<div id='ingredients_menu_div'>
 			<img src="/img/home_arrow.png" id='ing_m_left'> <img
 				src="/img/home_arrow.png" id='ing_m_right'>
-			<ul id='ing_menu' th:each="ty : ${tList}">
-					<li class='ing_menu_li' id="${ty }" th:text="${ty}"></li>
+			<ul id='ing_menu'>
+					<li class='ing_menu_li' th:each="ty : ${tList}" id="${ty}" th:text="${ty}"></li>
 			</ul>
 		</div>
-		<div id='ing_maker' th:each="dto : ${aList }">
-				<div class='ingredients' id='${dto.irdnt_nm}'>
-					${dto.irdnt_nm}
-					<input type="hidden" id='${dto.ty_nm }' />
+		<div id='ing_maker'>
+				<div class='ingredients' th:each="dto : ${aList}" id="${dto.irdntNm}" th:text="${dto.irdntNm}">
+					<input type="hidden" id="${dto.typeNm }" />
 				</div>
 		</div>
 	</div>
