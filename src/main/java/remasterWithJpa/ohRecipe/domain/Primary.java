@@ -10,12 +10,13 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@SequenceGenerator(name = "pri_num", sequenceName = "pri_num", initialValue = 1,allocationSize = 1)
+//@SequenceGenerator(name = "pri_num", sequenceName = "pri_num", initialValue = 1,allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "primarys")
 public class Primary {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pri_num")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pri_num")
     @Column(name = "recipe_id")
     private Long id;
 

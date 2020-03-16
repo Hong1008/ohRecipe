@@ -22,7 +22,6 @@ public class Review {
     @Column(length = 30)
     private String reviewRate;
 
-    @ColumnDefault("sysdate")
     private LocalDateTime reviewDate;
 
     @ColumnDefault("0")

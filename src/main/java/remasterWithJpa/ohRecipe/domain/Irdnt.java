@@ -10,10 +10,11 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@SequenceGenerator(name = "irdnt_num", sequenceName = "irdnt_num", initialValue = 1,allocationSize = 1)
+//@SequenceGenerator(name = "irdnt_num", sequenceName = "irdnt_num", initialValue = 1,allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Irdnt {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "irdnt_num")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "irdnt_num")
     @Column(name = "irdnt_sn")
     private Long id;
 

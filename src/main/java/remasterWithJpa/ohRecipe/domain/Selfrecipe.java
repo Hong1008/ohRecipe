@@ -13,9 +13,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(name = "self_num_seq", sequenceName = "selfrecipe_self_num_seq", allocationSize = 1)
+//@SequenceGenerator(name = "self_num_seq", sequenceName = "selfrecipe_self_num_seq", allocationSize = 1)
 public class Selfrecipe {
-    @Id @GeneratedValue(generator = "self_num_seq", strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(generator = "self_num_seq", strategy = GenerationType.SEQUENCE)
     @Column(name = "recipe_id")
     private Long id;
 
@@ -28,7 +29,6 @@ public class Selfrecipe {
     @JoinColumn(name = "user_id")
     private UserTable userTable;
 
-    @ColumnDefault("sysdate")
     private LocalDateTime selfDate;
 
     @ColumnDefault("0")

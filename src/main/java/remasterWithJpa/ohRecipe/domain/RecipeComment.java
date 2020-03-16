@@ -15,9 +15,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(name = "com_num_seq", sequenceName = "com_num_seq", allocationSize = 1)
+//@SequenceGenerator(name = "com_num_seq", sequenceName = "com_num_seq", allocationSize = 1)
 public class RecipeComment {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "com_num_seq")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "com_num_seq")
     @Column(name = "com_num")
     private Long id;
 
@@ -32,7 +33,6 @@ public class RecipeComment {
     @JoinColumn(name = "recipe_id")
     private Primary primary;
 
-    @ColumnDefault("sysdate")
     private LocalDateTime comTime;
 
     @Column(nullable = false)
