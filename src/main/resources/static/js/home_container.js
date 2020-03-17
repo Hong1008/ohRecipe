@@ -74,8 +74,8 @@ $(document)
 				var jsonString = JSON.stringify(irdnt_nms);
 				$.ajax({
 					type:'POST',
-					dataType:'text',
-					data:'irdnt_nm='+jsonString,
+					dataType:'json',
+					data: {'irdntNms':irdnt_nms},
 					url:'viewResult',
 					success: function(res){
 						$("#selected_recipe_view").html(res);

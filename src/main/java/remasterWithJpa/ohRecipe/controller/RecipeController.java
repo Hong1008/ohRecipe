@@ -3,9 +3,10 @@ package remasterWithJpa.ohRecipe.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import remasterWithJpa.ohRecipe.repository.IrdntTypeRepository;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,5 +21,12 @@ public class RecipeController {
         model.addAttribute("tList",irdntTypeRepository.findDistinctTypeNmList());
 
         return "home";
+    }
+
+    @ResponseBody
+    @PostMapping("viewResult")
+    public String viewResult(@RequestParam(value = "irdntNms[]") List<String> irdntNms){
+        System.out.println("irdntNms.size() = " + irdntNms.size());
+        return null;
     }
 }
