@@ -5,18 +5,112 @@
 	display:none;
 }
 </style>
+<link rel="stylesheet" href="/css/recipe.css">
+<link
+		href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100&display=swap"
+		rel="stylesheet">
+<script type="text/javascript" src="/js/comment.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+var rate = $('.R_rate');
+for(var i=0; i<rate.length;i++){
+	$(rate.eq(i)).css({'width':($(rate.eq(i)).attr('id')*100/4+'%'),'opacity':($(rate.eq(i)).attr('id')/4)});
+}
+$(document).ready(function(){
+	$('#closeShow').click(function(){
+		$('.R_div').remove();
+		var offset = $('#searchLine').offset();
+	    $('html, body').animate({scrollTop : offset.top}, 400);
+	}
+})
+</script>
 
 <div class="recipeBtn" id="nextBtn"><img alt="" src="/img/home_open_btn.png" ></div>
 <div class="recipeBtn" id="prevBtn"><img alt="" src="/img/home_open_btn.png" style="transform: rotate(180deg);"></div>
 
-<c:forEach items="${requestScope.viewPrim }" var="dto">
-	<%-- <div class="selected_recipe" id="${dto.RECIPE_ID }" onclick="">
+<!--<c:forEach items="${requestScope.viewPrim }" var="dto">
+	<%&#45;&#45; <div class="selected_recipe" id="${dto.RECIPE_ID }" onclick="">
 		<img alt="" src="${dto.IMG_URL }">
 		<p>${dto.RECIPE_NM_KO }</p>
-	</div> --%>
+	</div> &#45;&#45;%>
 	<input class="selected_recipe" type="hidden" value="${dto.RECIPE_ID }">
-</c:forEach>
-<script src="/js/showRecipe.js"></script>
+</c:forEach>-->
+
+<div class="selected_recipe">
+	<div id='R_header' class='R_div'>
+		<div id='R_image'>
+			<img th:attr="src=${viewResult.imgUrl}">
+		</div>
+		<h1 th:text="${viewResult.recipeNmKo}"></h1>
+		<h2 th:text="${viewResult.sumry}"></h2>
+	</div>
+	<div id='R_info' class='R_div'>
+		<!------------------ 아이디바꿔야함 -------------->
+		<div id='음식분류'>
+			<p>음식분류</p>
+			<span th:text="${viewResult.nationNm}"></span>
+		</div>
+		<div id='조리시간'>
+			<p>조리시간</p>
+			<span id="R_hour" th:text="${viewResult.hour}"></span> <span>h</span> <span id="R_minute" th:text="${viewResult.minute}"></span>
+			<span>m</span>
+		</div>
+		<div id='칼로리'>
+			<p>칼로리</p>
+			<span id="R_cal" th:text="${viewResult.calorie}"></span> <span>kcal</span>
+		</div>
+		<div id='난이도'>
+			<p>난이도</p>
+			<span th:text="${viewResult.levelNm}"></span>
+		</div>
+	</div>
+
+
+
+	<div id='R_importance' class='R_div'>
+		<h3>재료 중요도</h3>
+		<div id='일반재료' class='R_ig_div'>
+			<div class='R_ing' th:each="idto : ${viewResult.irdntList}" th:if="${idto.irdntTyNm} != '양념'">
+				<span th:text="${idto.irdntNm}"></span>
+				<div class='R_rate_div'>
+					<div class="R_rate" th:attr="id=${idto.importance}"></div>
+				</div>
+			</div>
+		</div>
+		<div id='양념' class='R_ig_div'>
+			<div class='R_ing' th:each="idto : ${viewResult.irdntList}" th:if="${idto.irdntTyNm} == '양념'">
+				<span th:text="${idto.irdntNm}"></span>
+				<div class='R_rate_div'>
+					<div class="R_rate" th:attr="id=${idto.importance}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id='R_recipeDiv' class='R_div'>
+		<div class='R_recipe' th:each="sdto : ${viewResult.stepList}">
+			<span class='R_num' th:text="${sdto.cookingNo}"></span><span th:text="${sdto.cookingDc}"></span>
+			<hr>
+		</div>
+	</div>
+
+	<!--<div id='CMT' class='R_div'>
+		<span id='comment_num'>댓글 <span id="total">${total }</span>  개</span>
+		<select name="order" id="order">
+			<option value="com_time">최근날짜순</option>
+			<option value="rating">별점순</option>
+		</select>
+		<input type="hidden" id="key" value="${recipe_id}">
+		<div id="primary">
+		</div>
+
+
+	</div>-->
+</div>
+
+<!--<script src="/js/showRecipe.js"></script>-->
+
 <script type="text/javascript">
 var recipes = $(".selected_recipe");
 var len = recipes.length;
@@ -45,10 +139,12 @@ $('#prevBtn').click(function(){
 		inx = len-1;
 		cur = recipes[inx];
 	}else{
-		inx--
+		inx&#45;&#45;
 		cur = recipes[inx];
 	}
 	showRecipe($(cur).val(),"#selected_recipe");
 })
 showRecipe($(cur).val(),"#selected_recipe");
+
+
 </script>

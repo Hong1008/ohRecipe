@@ -7,6 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 import remasterWithJpa.ohRecipe.domain.code.RecipeType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -57,4 +59,10 @@ public class Primary {
 
     @Enumerated(EnumType.STRING)
     private RecipeType recipeType;
+
+    @OneToMany(mappedBy = "primary")
+    List<Irdnt> irdnts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "primary")
+    List<Step> steps = new ArrayList<>();
 }

@@ -8,5 +8,5 @@ import java.io.Serializable;
 public class StepId implements Serializable {
 
     private Long primary;
-    private String cookingNo;
+    private Integer cookingNo;
 }

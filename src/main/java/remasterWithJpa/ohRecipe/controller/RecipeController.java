@@ -1,10 +1,16 @@
 package remasterWithJpa.ohRecipe.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import remasterWithJpa.ohRecipe.repository.IrdntTypeRepository;
+import remasterWithJpa.ohRecipe.repository.PrimaryRepository;
+import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
 import java.util.List;
 
@@ -14,6 +20,7 @@ import java.util.List;
 public class RecipeController {
 
     private final IrdntTypeRepository irdntTypeRepository;
+    private final PrimaryRepository primaryRepository;
 
     @GetMapping("home")
     public String home(Model model){
@@ -24,9 +31,15 @@ public class RecipeController {
     }
 
     @ResponseBody
-    @PostMapping("viewResult")
-    public String viewResult(@RequestParam(value = "irdntNms[]") List<String> irdntNms){
-        System.out.println("irdntNms.size() = " + irdntNms.size());
-        return null;
+    @GetMapping("viewResult")
+    public ModelAndView viewResult(@RequestParam(value = "irdntNms[]") List<String> irdntNms,
+                                   @RequestParam(required = false, defaultValue = "0") int page,
+                                   ModelAndView modelAndView){
+        Page<PrimViewDto> results = primaryRepository.viewResult(irdntNms, PageRequest.of(page, 1));
+
+        modelAndView.addObject("viewResult",results.getContent().get(0));
+        modelAndView.addObject("page",results);
+        modelAndView.setViewName("ajax/viewResult");
+        return modelAndView;
     }
 }

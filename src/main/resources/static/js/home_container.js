@@ -65,7 +65,7 @@ $(document)
 					});
 
 			//추천 레시피 부분
-			function viewList(){
+			function viewList(page){
 				var irdnt_nms = new Array();
 
 				$(".selected_ing p").each(function(i,v){
@@ -73,12 +73,16 @@ $(document)
 				})
 				var jsonString = JSON.stringify(irdnt_nms);
 				$.ajax({
-					type:'POST',
-					dataType:'json',
-					data: {'irdntNms':irdnt_nms},
+					type:'GET',
+					dataType:'text',
+					data: {'irdntNms':irdnt_nms,'page':page},
 					url:'viewResult',
 					success: function(res){
+					    console.log(res);
 						$("#selected_recipe_view").html(res);
+					},
+					error: function(e){
+					    console.log(e);
 					}
 				})
 			}
