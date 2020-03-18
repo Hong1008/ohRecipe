@@ -57,35 +57,14 @@ $(document)
 											$('selected_recipe').hide();
 										}else{
 											$(this).parents('.selected_ing').remove();
-											viewList();
+											home_container.viewList();
 										}
 																			
 									})
 						}
 					});
 
-			//추천 레시피 부분
-			function viewList(page){
-				var irdnt_nms = new Array();
 
-				$(".selected_ing p").each(function(i,v){
-					irdnt_nms[i] = $(v).text();
-				})
-				var jsonString = JSON.stringify(irdnt_nms);
-				$.ajax({
-					type:'GET',
-					dataType:'text',
-					data: {'irdntNms':irdnt_nms,'page':page},
-					url:'viewResult',
-					success: function(res){
-					    console.log(res);
-						$("#selected_recipe_view").html(res);
-					},
-					error: function(e){
-					    console.log(e);
-					}
-				})
-			}
 
 			//스크롤 내리기전 사이드메뉴
 			$(document).scroll(function() {		
@@ -123,3 +102,27 @@ $(document)
 
 			
 		});
+
+var home_container = {
+	'viewList' : //추천 레시피 부분
+		function viewList(page){
+			var irdnt_nms = new Array();
+
+			$(".selected_ing p").each(function(i,v){
+				irdnt_nms[i] = $(v).text();
+			})
+			var jsonString = JSON.stringify(irdnt_nms);
+			$.ajax({
+				type:'GET',
+				dataType:'text',
+				data: {'irdntNms':irdnt_nms,'page':page},
+				url:'viewResult',
+				success: function(res){
+					$("#selected_recipe_view").html(res);
+				},
+				error: function(e){
+					console.log(e);
+				}
+			})
+		}
+}

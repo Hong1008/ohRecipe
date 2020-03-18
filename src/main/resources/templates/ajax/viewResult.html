@@ -22,10 +22,9 @@ $(document).ready(function(){
 		$('.R_div').remove();
 		var offset = $('#searchLine').offset();
 	    $('html, body').animate({scrollTop : offset.top}, 400);
-	}
+	})
 })
 </script>
-
 <div class="recipeBtn" id="nextBtn"><img alt="" src="/img/home_open_btn.png" ></div>
 <div class="recipeBtn" id="prevBtn"><img alt="" src="/img/home_open_btn.png" style="transform: rotate(180deg);"></div>
 
@@ -37,7 +36,7 @@ $(document).ready(function(){
 	<input class="selected_recipe" type="hidden" value="${dto.RECIPE_ID }">
 </c:forEach>-->
 
-<div class="selected_recipe">
+<div class="selected_recipe" th:data-total="${total}" th:data-page="${page}">
 	<div id='R_header' class='R_div'>
 		<div id='R_image'>
 			<img th:attr="src=${viewResult.imgUrl}">
@@ -112,39 +111,23 @@ $(document).ready(function(){
 <!--<script src="/js/showRecipe.js"></script>-->
 
 <script type="text/javascript">
-var recipes = $(".selected_recipe");
-var len = recipes.length;
-var cur = recipes[0];
-var inx = 0;
 
-$('.recipeBtn').on('mouseover',function(){
-	$(this).clearQueue().animate({'opacity':1},300);
-}).on('mouseleave',function(){
-	$(this).clearQueue().animate({'opacity':0.5},300);
-})
+	var total = $('.selected_recipe').data("total");
+	var page = $('.selected_recipe').data("page");
+
+	$('.recipeBtn').on('mouseover', function () {
+		$(this).clearQueue().animate({'opacity': 1}, 300);
+	}).on('mouseleave', function () {
+		$(this).clearQueue().animate({'opacity': 0.5}, 300);
+	})
 
 
-$('#nextBtn').click(function(){
-	if(inx==len-1){
-		inx = 0;
-		cur = recipes[inx];
-	}else{
-		inx++;
-		cur = recipes[inx];
-	}
-	showRecipe($(cur).val(),"#selected_recipe");
-})
-$('#prevBtn').click(function(){
-	if(inx==0){
-		inx = len-1;
-		cur = recipes[inx];
-	}else{
-		inx&#45;&#45;
-		cur = recipes[inx];
-	}
-	showRecipe($(cur).val(),"#selected_recipe");
-})
-showRecipe($(cur).val(),"#selected_recipe");
+	$('#nextBtn').click(function () {
+		page >= total ? home_container.viewList(0) : home_container.viewList(page+1);
+	})
+	$('#prevBtn').click(function () {
+		page < 0 ? home_container.viewList(total) : home_container.viewList(page-1);
+	})
 
 
 </script>

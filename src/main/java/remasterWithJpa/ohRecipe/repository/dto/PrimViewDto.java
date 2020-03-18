@@ -2,6 +2,7 @@ package remasterWithJpa.ohRecipe.repository.dto;
 
 import lombok.Getter;
 import lombok.ToString;
+import remasterWithJpa.ohRecipe.domain.Irdnt;
 import remasterWithJpa.ohRecipe.domain.Primary;
 
 import java.util.List;

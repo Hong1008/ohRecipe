@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class PrimaryRepositoryImplTest {
 
-    @Autowired PrimaryRepositoryImpl primaryRepository;
+    @Autowired PrimaryRepository primaryRepository;
 
     @Test
     public void testViewResult(){
@@ -25,9 +25,9 @@ class PrimaryRepositoryImplTest {
         List<String> irdntNms = new ArrayList<>();
         irdntNms.add("돼지고기");
         irdntNms.add("소금");
-        PageRequest pageRequest = PageRequest.of(0, 1);
+        PageRequest pageRequest = PageRequest.of(1, 1);
         //when
-        Page<PrimViewDto> result = primaryRepository.viewResult(null, pageRequest);
+        Page<PrimViewDto> result = primaryRepository.viewResult(irdntNms, pageRequest);
 
         //then
         for (PrimViewDto primViewDto : result) {
@@ -39,7 +39,8 @@ class PrimaryRepositoryImplTest {
         System.out.println("result.getNumber() = " + result.getNumber());
         System.out.println("result.getTotalPages() = " + result.getTotalPages());
 
-
+        primaryRepository.viewResult(irdntNms, PageRequest.of(2, 1));
+        primaryRepository.viewResult(irdntNms, PageRequest.of(3, 1));
     }
 
 
