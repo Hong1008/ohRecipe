@@ -40,9 +40,6 @@ class PrimaryRepositoryImplTest {
         System.out.println("result.getTotalElements() = " + result.getTotalElements());
         System.out.println("result.getNumber() = " + result.getNumber());
         System.out.println("result.getTotalPages() = " + result.getTotalPages());
-
-        primaryRepository.viewResult(irdntNms, PageRequest.of(2, 1));
-        primaryRepository.viewResult(irdntNms, PageRequest.of(3, 1));
     }
 
 

@@ -10,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import remasterWithJpa.ohRecipe.domain.IrdntType;
+import remasterWithJpa.ohRecipe.domain.RecipeComment;
+import remasterWithJpa.ohRecipe.domain.code.BoardType;
 import remasterWithJpa.ohRecipe.repository.IrdntTypeRepository;
 import remasterWithJpa.ohRecipe.repository.PrimaryRepository;
+import remasterWithJpa.ohRecipe.repository.RecipeCommentRepository;
 import remasterWithJpa.ohRecipe.repository.dto.IrdntTypeViewDto;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
@@ -25,6 +28,7 @@ public class RecipeController {
 
     private final IrdntTypeRepository irdntTypeRepository;
     private final PrimaryRepository primaryRepository;
+    private final RecipeCommentRepository commentRepository;
 
     @GetMapping("home")
     public String home(Model model){
@@ -46,6 +50,16 @@ public class RecipeController {
         modelAndView.addObject("total",results.getTotalPages());
         modelAndView.addObject("page",results.getNumber());
         modelAndView.setViewName("ajax/viewResult");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @GetMapping("comList")
+    public ModelAndView comList(String boardCode, Long recipeId,
+                                Pageable pageable, ModelAndView modelAndView){
+        List<RecipeComment> comList = commentRepository.findAllBy(BoardType.valueOf(boardCode), recipeId, pageable);
+        modelAndView.addObject("comList",comList);
+        modelAndView.setViewName("ajax/comment");
         return modelAndView;
     }
 }
