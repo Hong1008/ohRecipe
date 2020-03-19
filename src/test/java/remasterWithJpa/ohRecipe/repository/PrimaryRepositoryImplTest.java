@@ -25,7 +25,9 @@ class PrimaryRepositoryImplTest {
         List<String> irdntNms = new ArrayList<>();
         irdntNms.add("돼지고기");
         irdntNms.add("소금");
-        PageRequest pageRequest = PageRequest.of(1, 1);
+        irdntNms.add("마늘");
+        irdntNms.add("닭");
+        PageRequest pageRequest = PageRequest.of(0, 1);
         //when
         Page<PrimViewDto> result = primaryRepository.viewResult(irdntNms, pageRequest);
 

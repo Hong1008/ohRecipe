@@ -41,8 +41,6 @@ public class RecipeController {
     public ModelAndView viewResult(@RequestParam(value = "irdntNms[]") List<String> irdntNms,
                                    @RequestParam(required = false, defaultValue = "0") int page,
                                    ModelAndView modelAndView){
-        System.out.println(irdntNms);
-        System.out.println(page);
         Page<PrimViewDto> results = primaryRepository.viewResult(irdntNms, PageRequest.of(page, 1));
         modelAndView.addObject("viewResult",results.getContent().get(0));
         modelAndView.addObject("total",results.getTotalPages());
