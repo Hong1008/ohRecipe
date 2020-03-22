@@ -4,17 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import remasterWithJpa.ohRecipe.domain.IrdntType;
 import remasterWithJpa.ohRecipe.domain.RecipeComment;
 import remasterWithJpa.ohRecipe.domain.code.BoardType;
 import remasterWithJpa.ohRecipe.repository.IrdntTypeRepository;
 import remasterWithJpa.ohRecipe.repository.PrimaryRepository;
 import remasterWithJpa.ohRecipe.repository.RecipeCommentRepository;
+import remasterWithJpa.ohRecipe.repository.dto.CommentViewDto;
 import remasterWithJpa.ohRecipe.repository.dto.IrdntTypeViewDto;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
@@ -56,10 +60,21 @@ public class RecipeController {
     @ResponseBody
     @GetMapping("comList")
     public ModelAndView comList(String boardCode, Long recipeId,
-                                Pageable pageable, ModelAndView modelAndView){
-        List<RecipeComment> comList = commentRepository.findAllBy(BoardType.valueOf(boardCode), recipeId, pageable);
-        modelAndView.addObject("comList",comList);
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "comTime") String sort,
+                                ModelAndView modelAndView){
+        PageRequest pageable = PageRequest.of(page, 5);
+        Page<CommentViewDto> comList = commentRepository.commentList(BoardType.valueOf(boardCode), recipeId, pageable, sort);
+        modelAndView.addObject("comList",comList.getContent());
+        modelAndView.addObject("total",comList.getTotalElements());
+        modelAndView.addObject("page",comList.getNumber());
         modelAndView.setViewName("ajax/comment");
         return modelAndView;
+    }
+
+    @GetMapping("list")
+    public String recipeList(){
+
+        return "";
     }
 }

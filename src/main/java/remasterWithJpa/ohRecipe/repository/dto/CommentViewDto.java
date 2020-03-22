@@ -1,9 +1,13 @@
 package remasterWithJpa.ohRecipe.repository.dto;
 
+import lombok.Getter;
+import lombok.ToString;
 import remasterWithJpa.ohRecipe.domain.RecipeComment;
 
 import java.time.LocalDateTime;
 
+@Getter
+@ToString
 public class CommentViewDto {
     private String userId;
     private String userNickname;

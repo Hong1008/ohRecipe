@@ -1,6 +1,5 @@
 var star_rate=0;
 var star_num=0;
-var rownum=5;
 
 $(document).ready(function(){	
 	$('#CMT_input').on('focus',function(){
@@ -46,24 +45,43 @@ $(document).ready(function(){
 		rating(star_num,'#star_');
 	})
 	
-	var con = $('.rated_div');
+	/*var con = $('.rated_div');
 	for(var i=0;i<con.length;i++ ){
 		var num = con.eq(i).find('.rate_num').attr('id');
 		var id = '#'+con.eq(i).attr('id')+".rated_div #rate_";
 		rating(num,id)
 		
-	}
+	}*/
+
+
 	
 
 	
 	$('#CMT #order').change(function(){
-		comList();
+		comList(
+			$('#CMT').data("board_code"),
+			$('#CMT').data("recipe_id"),
+			0,
+			$(this).val()
+		);
 	})
 	
 	$('#showMore').click(function(){
-		rownum = parseInt($('#CMT .rated_div').last().attr('id'))+5;
-		
-		comList();
+		var total = $('#com_page').data("total");
+		var page = $('#com_page').data("page");
+		if (page >= total) {
+			alert("마지막 페이지 입니다.");
+			return false;
+		} else {
+			page = page + 1;
+		}
+
+		comList(
+			$('#CMT').data("board_code"),
+			$('#CMT').data("recipe_id"),
+			page,
+			$('#CMT #order').val()
+		);
 	})
 })
 function rating(num,id){
@@ -78,19 +96,31 @@ function rating(num,id){
 			$(id+i+classNM).css('opacity','0.3');
 	}
 }
-function comList(){
-	
-	
-	if(typeof rownum == "undefined" || rownum == null || rownum == "")
-		rownum = 5;
+
+var comment = {
+	'comList':comList,
+	'insertCom':insertCom
+}
+function comList(boardCode, recipeId, page, sortCol){
+	var comListParam = {
+		'boardCode' : boardCode,
+		'recipeId' : recipeId,
+		'page' : page,
+		'sort' : sortCol
+	}
+
 	$.ajax({
-		type:'POST',
+		type:'GET',
 		dataType:'text',
-		data:'com_board='+$('#CMT>div').attr('id')+'&key='+$('#CMT #key').val()+'&order='+$('#CMT #order').val()+'&rownum='+rownum,
+		data:comListParam,
 		url:'comList',
 		success: function(res){
-			$('#CMT>div').empty();
-			$('#CMT>div').html(res);
+			if(page == 0 || page == undefined){
+				$('#CMT>.comList').empty();
+				$('#CMT>.comList').html(res);
+			}else{
+				//$('#CMT>div').append(res);
+			}
 		}
 	})
 }

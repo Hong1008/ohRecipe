@@ -36,7 +36,7 @@ $(document)
 									+ "</p></div>";
 									$('#selected_ing_list')
 									.html(selected);
-									viewList();
+									home_container.viewList();
 								} else {
 									//alert("재료는 5개까지만 선택 가능합니다.");
 									swal("재료는 5개까지만 선택 가능합니다..","다른 재료를 선택해주세요.","info");

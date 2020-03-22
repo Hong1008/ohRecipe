@@ -2,6 +2,7 @@ package remasterWithJpa.ohRecipe.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import remasterWithJpa.ohRecipe.domain.Primary;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
 import java.util.List;

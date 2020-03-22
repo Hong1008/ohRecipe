@@ -13,9 +13,14 @@ import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+import remasterWithJpa.ohRecipe.domain.Primary;
 import remasterWithJpa.ohRecipe.domain.QIrdnt;
 import remasterWithJpa.ohRecipe.domain.QPrimary;
+import remasterWithJpa.ohRecipe.domain.code.RecipeType;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
 import java.util.ArrayList;
@@ -29,14 +34,14 @@ public class PrimaryRepositoryImpl implements PrimaryRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
 
+
     @Override
     public Page<PrimViewDto> viewResult(List<String> irdntNms, Pageable pageable) {
-
 
         QueryResults<PrimViewDto> result = queryFactory
                 .select(Projections.constructor(PrimViewDto.class, primary))
                 .from(primary)
-                .where(primary.id.in(irdntSelfJoinSub(irdntNms)))
+                .where(primary.id.in(irdntSelfJoinSub(irdntNms)),primary.recipeType.eq(RecipeType.p))
                 .orderBy(primary.rating.desc().nullsLast())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -46,7 +51,7 @@ public class PrimaryRepositoryImpl implements PrimaryRepositoryQuerydsl {
             result = queryFactory
                     .select(Projections.constructor(PrimViewDto.class, primary))
                     .from(primary)
-                    .where(primary.id.in(irdntSub(irdntNms)))
+                    .where(primary.id.in(irdntSub(irdntNms)),primary.recipeType.eq(RecipeType.p))
                     .orderBy(primary.rating.desc().nullsLast())
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())

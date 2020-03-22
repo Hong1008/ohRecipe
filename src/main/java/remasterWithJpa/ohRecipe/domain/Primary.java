@@ -3,6 +3,7 @@ package remasterWithJpa.ohRecipe.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import remasterWithJpa.ohRecipe.domain.code.RecipeType;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 //@SequenceGenerator(name = "pri_num", sequenceName = "pri_num", initialValue = 1,allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"irdnts","steps"})
 @Table(name = "primarys")
 public class Primary {
 

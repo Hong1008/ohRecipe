@@ -6,6 +6,7 @@
 }
 </style>
 <link rel="stylesheet" href="/css/recipe.css">
+<link rel="stylesheet" href="/css/comment.css">
 <link
 		href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100&display=swap"
 		rel="stylesheet">
@@ -94,23 +95,44 @@ $(document).ready(function(){
 		</div>
 	</div>
 
-	<!--<div id='CMT' class='R_div'>
-		<span id='comment_num'>댓글 <span id="total">${total }</span>  개</span>
+	<div id='CMT' class='R_div' th:data-recipe_id="${viewResult.recipeId}"
+		 th:data-board_code="primary">
+		<span id='comment_num'>댓글 <span id="total"></span></span>
 		<select name="order" id="order">
-			<option value="com_time">최근날짜순</option>
+			<option value="comTime">최근날짜순</option>
 			<option value="rating">별점순</option>
 		</select>
-		<input type="hidden" id="key" value="${recipe_id}">
-		<div id="primary">
+		<div class="insertCom">
+			<div class='CMT_icon'><img alt="" src="/img/icon/${session.loginICON}"></div>
+			<input type="hidden" id="user_id" value="${session.loginID }">
+
+			<textarea id='CMT_input' autocomplete='off' placeholder="댓글을 추가하세요"
+					  wrap="hard" maxlength="200"></textarea>
+
+			<div id='star_div'>
+				<span>만족도를 <br>평가해주세요</span>
+				<div class='star' id='star_5'></div>
+				<div class='star' id='star_4'></div>
+				<div class='star' id='star_3'></div>
+				<div class='star' id='star_2'></div>
+				<div class='star' id='star_1'></div>
+				<input type="hidden" name='rate' id='rate'>
+			</div>
+
+			<br> <input type='button' id='CMT_submit' value='댓글' onclick="insertCom()"> <input
+				type="reset" id='CMT_reset' value='취소'>
 		</div>
-
-
-	</div>-->
+		<div id="primary" class="comList">
+		</div>
+		<input type="button" id="showMore" value="더보기">
+	</div>
 </div>
 
 <!--<script src="/js/showRecipe.js"></script>-->
 
 <script type="text/javascript">
+
+	comment.comList($('#CMT').data("board_code"),$('#CMT').data("recipe_id"));
 
 	var total = $('.selected_recipe').data("total");
 	var page = $('.selected_recipe').data("page");

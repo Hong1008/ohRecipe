@@ -7,5 +7,5 @@ import remasterWithJpa.ohRecipe.repository.dto.CommentViewDto;
 
 public interface RecipeCommentRepositoryQuerydsl {
 
-    Page<CommentViewDto> commentList(BoardType boardType, Long recipeId, Pageable pageable);
+    Page<CommentViewDto> commentList(BoardType boardType, Long recipeId, Pageable pageable, String sort);
 }
