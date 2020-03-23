@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import remasterWithJpa.ohRecipe.domain.Primary;
+import remasterWithJpa.ohRecipe.domain.code.RecipeType;
 
 import static remasterWithJpa.ohRecipe.domain.QIrdnt.irdnt;
 import static remasterWithJpa.ohRecipe.domain.QPrimary.primary;
@@ -23,15 +24,15 @@ public class PrimaryQuerySupport extends Querydsl4RepositorySupport {
         return applyPagination(pageable, query ->
                 query.selectFrom(primary)
                         .where(eqNationNm(nationNm),
-                                eqSearchCase(recipeNmKo, irdntNm)));
+                                eqSearchCase(recipeNmKo, irdntNm),primary.recipeType.eq(RecipeType.p)));
     }
 
     private BooleanBuilder eqSearchCase(String recipeNmKo, String irdntNm) {
         BooleanBuilder searchCase = new BooleanBuilder();
         if(StringUtils.hasText(irdntNm) && StringUtils.hasText(recipeNmKo)){
-            searchCase.and(eqRecipeNmKo(recipeNmKo)).or(eqIrdntNm(irdntNm));
+            searchCase.and(containRecipeNmKo(recipeNmKo)).or(eqIrdntNm(irdntNm));
         }else{
-            searchCase.and(eqRecipeNmKo(recipeNmKo));
+            searchCase.and(containRecipeNmKo(recipeNmKo));
             searchCase.and(eqIrdntNm(irdntNm));
         }
         return searchCase;
@@ -46,7 +47,7 @@ public class PrimaryQuerySupport extends Querydsl4RepositorySupport {
                 ) : null;
     }
 
-    private BooleanExpression eqRecipeNmKo(String recipeNmKo) {
+    private BooleanExpression containRecipeNmKo(String recipeNmKo) {
         return StringUtils.hasText(recipeNmKo) ?
                 primary.recipeNmKo.contains(recipeNmKo) : null;
     }

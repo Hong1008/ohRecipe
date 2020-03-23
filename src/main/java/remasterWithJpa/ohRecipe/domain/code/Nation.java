@@ -1,5 +1,11 @@
 package remasterWithJpa.ohRecipe.domain.code;
 
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public enum Nation {
     KOREAN("3020001","한식"),
     WESTERN("3020002","양식"),
@@ -14,5 +20,13 @@ public enum Nation {
     Nation(String nationCode, String nationNm) {
         this.nationCode = nationCode;
         this.nationNm = nationNm;
+    }
+
+    public static List<String> getNationNms(){
+        List<String> nationNms = new ArrayList<>();
+        for (Nation nation : Nation.values()) {
+            nationNms.add(nation.getNationNm());
+        }
+        return nationNms;
     }
 }

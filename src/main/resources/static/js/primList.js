@@ -5,6 +5,14 @@ $(document).ready(
 			var column = '';
 			var order = '';
 			var nation_nm = '';
+
+			$('sort').on('click',function(){
+			    var id = $(this).attr('id');
+			    var direction = $(this).data("direction");
+
+			    location.href('?')
+			})
+
 			$('.sort,.ing_menu_li,.icon-search,#searchText').on('click keydown',
 					function listAjax(key) {
 						var recipe_nm_ko = '';

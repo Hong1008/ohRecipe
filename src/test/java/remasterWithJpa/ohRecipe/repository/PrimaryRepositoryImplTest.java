@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import remasterWithJpa.ohRecipe.domain.Primary;
+import remasterWithJpa.ohRecipe.domain.code.RecipeType;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
 
 import java.util.ArrayList;
@@ -47,12 +48,20 @@ class PrimaryRepositoryImplTest {
     public void testSortView(){
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC,"primViews"));
 
-        Page<Primary> result = querySupport.sortView(null, null, "김치", pageRequest);
+        Page<Primary> result = querySupport.sortView(null, null, null, pageRequest);
 
         for (Primary primary : result) {
             System.out.println("primary = " + primary);
         }
     }
 
+    @Test
+    public void testNationNms(){
+        List<String> result = primaryRepository.findNationNms(RecipeType.p);
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 
 }

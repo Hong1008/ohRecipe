@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import remasterWithJpa.ohRecipe.domain.Primary;
 import remasterWithJpa.ohRecipe.domain.RecipeComment;
 import remasterWithJpa.ohRecipe.domain.code.BoardType;
+import remasterWithJpa.ohRecipe.domain.code.Nation;
 import remasterWithJpa.ohRecipe.repository.IrdntTypeRepository;
+import remasterWithJpa.ohRecipe.repository.PrimaryQuerySupport;
 import remasterWithJpa.ohRecipe.repository.PrimaryRepository;
 import remasterWithJpa.ohRecipe.repository.RecipeCommentRepository;
 import remasterWithJpa.ohRecipe.repository.dto.CommentViewDto;
@@ -33,6 +36,7 @@ public class RecipeController {
     private final IrdntTypeRepository irdntTypeRepository;
     private final PrimaryRepository primaryRepository;
     private final RecipeCommentRepository commentRepository;
+    private final PrimaryQuerySupport primaryQuerySupport;
 
     @GetMapping("home")
     public String home(Model model){
@@ -73,8 +77,13 @@ public class RecipeController {
     }
 
     @GetMapping("list")
-    public String recipeList(){
-
-        return "";
+    public String recipeList(String nationNm, String recipeNmKo, String irdntNm, Model model,
+                             @PageableDefault(size = 16, page = 0,
+                                     sort = "primViews", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Primary> primList = primaryQuerySupport.sortView(nationNm, recipeNmKo, irdntNm, pageable);
+        List<String> nationNms = Nation.getNationNms();
+        model.addAttribute("primList",primList);
+        model.addAttribute("nationNms",nationNms);
+        return "primList";
     }
 }
