@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import remasterWithJpa.ohRecipe.controller.dto.PrimSearchDto;
 import remasterWithJpa.ohRecipe.domain.Primary;
 import remasterWithJpa.ohRecipe.domain.RecipeComment;
 import remasterWithJpa.ohRecipe.domain.code.BoardType;
@@ -24,6 +25,7 @@ import remasterWithJpa.ohRecipe.repository.RecipeCommentRepository;
 import remasterWithJpa.ohRecipe.repository.dto.CommentViewDto;
 import remasterWithJpa.ohRecipe.repository.dto.IrdntTypeViewDto;
 import remasterWithJpa.ohRecipe.repository.dto.PrimViewDto;
+import remasterWithJpa.ohRecipe.service.RecipeService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ public class RecipeController {
     private final IrdntTypeRepository irdntTypeRepository;
     private final PrimaryRepository primaryRepository;
     private final RecipeCommentRepository commentRepository;
-    private final PrimaryQuerySupport primaryQuerySupport;
+    private final RecipeService recipeService;
 
     @GetMapping("home")
     public String home(Model model){
@@ -77,13 +79,17 @@ public class RecipeController {
     }
 
     @GetMapping("list")
-    public String recipeList(String nationNm, String recipeNmKo, String irdntNm, Model model,
-                             @PageableDefault(size = 16, page = 0,
-                                     sort = "primViews", direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Primary> primList = primaryQuerySupport.sortView(nationNm, recipeNmKo, irdntNm, pageable);
+    public String recipeList(PrimSearchDto primSearchDto, Model model,
+                             @RequestParam(defaultValue = "0") int page,
+                             @RequestParam(defaultValue = "DESC") String direction,
+                             @RequestParam(defaultValue = "primViews") String sort){
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.Direction.valueOf(direction), sort);
+        Page<Primary> primList = recipeService.sortView(primSearchDto, pageRequest);
         List<String> nationNms = Nation.getNationNms();
         model.addAttribute("primList",primList);
         model.addAttribute("nationNms",nationNms);
+        model.addAttribute("sort",sort);
+        model.addAttribute("direction",direction);
         return "primList";
     }
 }

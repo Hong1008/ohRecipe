@@ -6,14 +6,30 @@ $(document).ready(
 			var order = '';
 			var nation_nm = '';
 
-			$('sort').on('click',function(){
+			$('.sort').on('click',function(){
+			    var formSort = $('#searchLine form input[name="sort"]');
+			    var formDirect = $('#searchLine form input[name="direction"]');
 			    var id = $(this).attr('id');
-			    var direction = $(this).data("direction");
+			    var direction = formDirect.val();
 
-			    location.href('?')
+			    formSort.val(id);
+
+                if(formDirect.val().toLowerCase() == 'desc'){
+                    formDirect.val('ASC');
+                }else{
+                    formDirect.val('DESC');
+                }
+			    $('#searchLine form').submit();
+			    return false;
 			})
 
-			$('.sort,.ing_menu_li,.icon-search,#searchText').on('click keydown',
+			$('.ing_menu_li').on('click',function(){
+			    var nationNm = $(this).attr('id');
+			    $('#searchLine form input[name="nationNm"]').val(nationNm);
+			    $('#searchLine form').submit();
+			})
+
+			/*$('.sort,.ing_menu_li,.icon-search,#searchText').on('click keydown',
 					function listAjax(key) {
 						var recipe_nm_ko = '';
 						var searchType = '';
@@ -68,7 +84,7 @@ $(document).ready(
 						}
 						$('#searchText').val('');
 						return false;
-					})
+					})*/
 
 			function load(id, cnt) {
 				var hei = $('.thumbnails').height();
@@ -90,4 +106,4 @@ $(document).ready(
 						}, 100);
 					})
 			
-		})
+})

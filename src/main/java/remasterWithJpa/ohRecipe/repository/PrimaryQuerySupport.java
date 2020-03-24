@@ -40,10 +40,10 @@ public class PrimaryQuerySupport extends Querydsl4RepositorySupport {
 
     private BooleanExpression eqIrdntNm(String irdntNm) {
         return StringUtils.hasText(irdntNm) ?
-                primary.id.in(
-                        JPAExpressions.select(irdnt.primary.id)
-                                .from(irdnt)
-                                .where(irdnt.irdntType.irdntNm.contains(irdntNm))
+                primary.id.in(JPAExpressions
+                        .select(irdnt.primary.id)
+                        .from(irdnt)
+                        .where(irdnt.irdntType.irdntNm.contains(irdntNm))
                 ) : null;
     }
 

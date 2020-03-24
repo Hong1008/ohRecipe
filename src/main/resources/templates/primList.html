@@ -161,13 +161,19 @@
 <div id="hidden"></div>
 
 <div id="searchLine">
-    <select name="searchDrop" id="searchDrop">
-        <option id="both" value="both" selected>전체</option>
-        <option id="recipe_nm_ko" value="recipeNmKo">레시피이름</option>
-        <option id="irdnt_nm" value="irdntNm">재료이름</option>
-    </select>
-    <input type="text" name="recipe_nm_ko" id="searchText"/>
-    <input type="button" class="icon-search" value="검색">
+    <form role="form" th:object="${primSearchDto}" action="list" method="get">
+        <select name="searchCase" id="searchDrop" th:value="*{searchCase}">
+            <option id="both" value="both" selected>전체</option>
+            <option id="recipe_nm_ko" value="recipeNmKo">레시피이름</option>
+            <option id="irdnt_nm" value="irdntNm">재료이름</option>
+        </select>
+        <input type="hidden" name="nationNm" th:value="*{nationNm}">
+        <input type="hidden" name="page" th:value="${page}">
+        <input type="hidden" name="sort" th:value="${sort}">
+        <input type="hidden" name="direction" th:value="${direction}">
+        <input type="text" name="searchWord" id="searchText" th:value="*{searchWord}"/>
+        <input type="submit" class="icon-search" value="검색">
+    </form>
 </div>
 
 
@@ -176,9 +182,9 @@
 
 <!-- Wrapper -->
 <div id="wrapper">
-    <a href="#" class="sort" id="primViews" th:data-direction="desc">조회수순</a>
-    <a href="#" class="sort" id="rating" th:data-direction="desc">별점순</a>
-    <a href="#" class="sort" id="recipeNmKo" th:data-direction="asc">가나다순</a>
+    <a href="#" class="sort" id="primViews">조회수순</a>
+    <a href="#" class="sort" id="rating">별점순</a>
+    <a href="#" class="sort" id="recipeNmKo">가나다순</a>
     <section id="category">
         <ul id='ing_menu'>
             <li class='ing_menu_li' th:each="nationNm : ${nationNms}" th:attr="id=${nationNm}"
